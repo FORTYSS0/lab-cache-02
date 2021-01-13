@@ -1,5 +1,10 @@
 # Лабораторная работа №2
 
+| branch | status |
+|--------|--------|
+| fortyss-parser |[![Build Status](https://github.com/FORTYSS0/lab-cache-02/workflows/CI/badge.svg)](https://travis-ci.com/github/FORTYSS0/lab-cache-02)|
+
+
 В большинстве современных ПК используется следующая иерархия памяти:
 | Тип | Скорость доступа | Размер |
 | - | - | - |
