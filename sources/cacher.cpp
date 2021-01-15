@@ -1,7 +1,24 @@
 // Copyright 2020 by FORTYSS
 
 #include <cacher.hpp>
-auto genarr(uint64_t size){
+std::vector<uint> Genarr(){
+  double min = 0.125, max = 8;
+  int flag=0, sh=0;
+  std::vector<double> cache;
+  cache.push_back(min);
+  while (flag < max){
+    flag = pow(2,sh);
+    cache.push_back(flag);
+    sh++;
+  }
+  cache.push_back(max*1.5);
+  std::vector<uint> buf(cache.size());
+  for (double i = 0; i < cache.size(); ++i) {
+    buf[i] = cache[i] * (pow(2, 18));
+  }
+  return  buf;
+}
+auto progrev(uint64_t size){
   auto arr= new long double [size];
 
   for (size_t i = 0; i < size; i+=sets) {
@@ -9,55 +26,112 @@ auto genarr(uint64_t size){
   }
   return arr;
 }
-double pryam(size_t size) {
-  auto arr = genarr(size);
+std::vector<double> pryam(const std::vector<uint>& buf) {
+  std::vector<double> out;
+  for (size_t k = 0; k < static_cast<size_t>(buf.size()); k++) {
+    auto arr = progrev(buf[k]);
+    long double sum = 0;
+    for (size_t i = 0; i < buf[k]; i += sets) {
+      sum += arr[i];
+    }
+    sum = 0;
+    auto time1 = std::chrono::high_resolution_clock::now();
+    for (size_t j = 0; j < expcol; j++) {
+      for (size_t i = 0; i < buf[k]; i += sets) {
+        sum += arr[i];
+      }
+    }
+    auto time2 = std::chrono::high_resolution_clock::now();
+    out.push_back(static_cast<double>(
+        (std::chrono::nanoseconds(time2 - time1).count()) / expcol));
+  }
+  return out;
+}
+std::vector<double> back(const std::vector<uint>& buf) {
+  std::vector<double> out;
+  for (size_t k = 0; k < static_cast<size_t>(buf.size()); k++) {
+  auto arr = progrev(buf[k]);
   long double sum = 0;
-  for (size_t i = 0; i < size; i += sets) {
+  for (size_t i = 0; i < buf[k]; i += sets) {
     sum += arr[i];
   }
   sum = 0;
   auto time1 = std::chrono::high_resolution_clock::now();
-  for(size_t i = 0; i < size*expcol; i+=sets) {
-    sum += arr[i%size];
+  for(size_t j = 0; j < expcol; j++) {
+    for (size_t i = buf[k]; i > 0; i -= sets) {
+      sum += arr[i];
+    }
   }
   auto time2 = std::chrono::high_resolution_clock::now();
-  return static_cast<double>((std::chrono::nanoseconds(time2-time1).count())
-                             /expcol);
-}
-double back(size_t size) {
-  auto arr = genarr(size);
-  long double sum = 0;
-  for (size_t i = 0; i < size; i += sets) {
-    sum += arr[i];
+    out.push_back(static_cast<double>(
+                      (std::chrono::nanoseconds(time2 - time1).count()) / expcol));
   }
-  sum = 0;
-  auto time1 = std::chrono::high_resolution_clock::now();
-  for(size_t i = size*expcol; i > 0 ; i-=sets) {
-    sum += arr[i%size];
-  }
-  auto time2 = std::chrono::high_resolution_clock::now();
-  return static_cast<double>((std::chrono::nanoseconds(time2-time1).count())
-                             /expcol);
+
+  return out;
 }
-double rand(size_t size) {
-  auto arr = genarr(size);
+std::vector<double> rand(const std::vector<uint>& buf) {
+  std::vector<double> out;
+  for (size_t k = 0; k < static_cast<size_t>(buf.size()); k++) {
+  auto arr = progrev(buf[k]);
   long double sum = 0;
-  std::vector<size_t> x(size);
-  for (size_t i = 0; i < size; i += sets) {
+  std::vector<size_t> x(buf[k]);
+  for (size_t i = 0; i < buf[k]; i++) {
     sum += arr[i];
-    x[i] = i;
+    if(i%sets == 0) {
+      x[i] = i;
+    }
   }
   sum = 0;
   srand(unsigned(time(0)));
   random_shuffle(x.begin(), x.end());
   auto time1 = std::chrono::high_resolution_clock::now();
-  for(size_t i = 0; i < size*expcol; i+=sets) {
-    sum += arr [x[i%size]];
+  for(size_t i = 0; i < expcol; i++) {
+    for(size_t j = 0; j<buf[k]; j+=sets) {
+      sum += arr[x[i]];
+    }
   }
   auto time2 = std::chrono::high_resolution_clock::now();
-  return static_cast<double>((std::chrono::nanoseconds(time2-time1).count())
-                             /expcol);
+    out.push_back(static_cast<double>(
+                      (std::chrono::nanoseconds(time2 - time1).count()) / expcol));
+  }
+
+  return out;
 }
-Experement::Experement(Type typ, const size_t &size) {
-  size_t s =
+void Out(const std::vector<uint>& buf) {
+ cout << R"(investigation:
+    travel_variant: Pramoy
+    experiments:
+    number: 1
+    input_data:
+    buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 12Mb
+    results:
+    duration:)";
+ std::vector<double> vect = pryam(buf);
+ for(size_t i =0; i<vect.size(); i++){
+   cout << " " << vect[i] << " nanosec.";
+ }
+cout << std::endl << R"(investigation:
+    travel_variant: Obratn
+    experiments:
+    number: 1
+    input_data:
+    buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 12Mb
+    results:
+    duration:)";
+  vect = back(buf);
+  for(size_t i =0; i<vect.size(); i++){
+    cout << " " << vect[i] << " nanosec.";
+  }
+  cout << std::endl << R"(investigation:
+    travel_variant: Random
+    experiments:
+    number: 1
+    input_data:
+    buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 12Mb
+    results:
+    duration:)";
+  vect = rand(buf);
+  for(size_t i =0; i<vect.size(); i++){
+    cout << " " << vect[i] << " nanosec.";
+  }
 }
