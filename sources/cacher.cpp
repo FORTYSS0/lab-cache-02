@@ -53,7 +53,7 @@ std::vector<double> back(const std::vector<uint>& buf) {
   for (size_t k = 0; k < static_cast<size_t>(buf.size()); k++) {
   auto arr = progrev(buf[k]);
   long double sum = 0;
-  for (size_t i = 0; i < buf[k]; i += sets) {
+  for (size_t i = 0; i < buf[k]-1; i += sets) {
     sum += arr[i];
   }
   sum = 0;
