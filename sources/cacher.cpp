@@ -45,6 +45,7 @@ std::vector<double> pryam(const std::vector<uint>& buf) {
     auto time2 = std::chrono::high_resolution_clock::now();
     out.push_back(static_cast<double>(
         (std::chrono::nanoseconds(time2 - time1).count()) / expcol));
+    delete [] arr;
   }
   return out;
 }
@@ -66,6 +67,7 @@ std::vector<double> back(const std::vector<uint>& buf) {
   auto time2 = std::chrono::high_resolution_clock::now();
     out.push_back(static_cast<double>(
                       (std::chrono::nanoseconds(time2 - time1).count()) / expcol));
+    delete [] arr;
   }
 
   return out;
@@ -94,6 +96,7 @@ std::vector<double> rand(const std::vector<uint>& buf) {
   auto time2 = std::chrono::high_resolution_clock::now();
     out.push_back(static_cast<double>(
                       (std::chrono::nanoseconds(time2 - time1).count()) / expcol));
+    delete [] arr;
   }
 
   return out;
