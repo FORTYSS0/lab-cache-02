@@ -50,25 +50,17 @@ std::vector<double> pryam(const std::vector<uint>& buf) {
 }
 std::vector<double> back(const std::vector<uint>& buf) {
   std::vector<double> out;
-  std::cout<<"OK 0";
   for (size_t k = 0; k < static_cast<size_t>(buf.size()); k++) {
-    std::cout<<"OK " << k;
   auto arr = progrev(buf[k]);
-    std::cout<<"OK 1." << k;
   long double sum = 0;
   for (size_t i = 0; i < buf[k]; i += sets) {
-    std::cout<<"OK "<< k << " " << i;
     sum += arr[i];
-    std::cout<<"OK 2."<< k << " " << i;
   }
   sum = 0;
   auto time1 = std::chrono::high_resolution_clock::now();
   for(size_t j = 0; j < expcol; j++) {
-    std::cout<<"OK "<< k<< " " << j;
     for (size_t i = buf[k]; i > 0; i -= sets) {
-      std::cout<<"OK "<< k << " " << j << " " << i;
       sum += arr[i];
-      std::cout<<"OK 3."<< k << " " << j << " " << i;
     }
   }
   auto time2 = std::chrono::high_resolution_clock::now();
