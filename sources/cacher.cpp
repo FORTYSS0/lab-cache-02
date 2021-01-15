@@ -60,7 +60,7 @@ std::vector<double> back(const std::vector<uint>& buf) {
   sum = 0;
   auto time1 = std::chrono::high_resolution_clock::now();
   for(size_t j = 0; j < expcol; j++) {
-    for (size_t i = buf[k]-1; 0 <= i; i =i - sets) {
+    for (size_t i = buf.size()-1; i > 0; i =i - sets) {
       sum += arr[i];
     }
   }
