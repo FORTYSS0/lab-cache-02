@@ -11,7 +11,7 @@ std::vector<uint> Genarr(){
     cache.push_back(flag);
     sh++;
   }
-  cache.push_back(max*1.5);
+  cache.push_back(9);
   std::vector<uint> buf(cache.size());
   for (double i = 0; i < cache.size(); ++i) {
     buf[i] = cache[i] * (pow(2, 18));
