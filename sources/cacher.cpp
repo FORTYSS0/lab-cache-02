@@ -53,10 +53,8 @@ std::vector<double> back(const std::vector<uint>& buf) {
   for (size_t k = 0; k < static_cast<size_t>(buf.size()); k++) {
   auto arr = progrev(buf[k]);
   long double sum = 0;
-  long fl =0;
   for (size_t i = 0; i < buf[k]; i += sets) {
     sum += arr[i];
-    fl =sets;
   }
   sum = 0;
   auto time1 = std::chrono::high_resolution_clock::now();
