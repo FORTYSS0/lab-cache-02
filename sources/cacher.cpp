@@ -39,6 +39,7 @@ std::vector<double> pryam(const std::vector<uint>& buf) {
     for (size_t j = 0; j < expcol; j++) {
       for (size_t i = 0; i < buf[k]; i += sets) {
         sum += arr[i];
+        sum = 0;
       }
     }
     auto time2 = std::chrono::high_resolution_clock::now();
