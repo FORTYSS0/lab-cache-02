@@ -47,7 +47,7 @@ std::vector<double> pryam(const std::vector<uint>& buf) {
       }
     }
     delete[] arr;
-    //auto time2 = std::chrono::high_resolution_clock::now();
+    //auto time2 = std::chrono::high_resolution_clock::now()
     out.push_back(rez/expcol);
   }
   return out;
