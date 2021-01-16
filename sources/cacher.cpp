@@ -35,16 +35,20 @@ std::vector<double> pryam(const std::vector<uint>& buf) {
       sum += arr[i];
     }
     sum = 0;
-    auto time1 = std::chrono::high_resolution_clock::now();
+    double rez =0;
+    //auto time1 = std::chrono::high_resolution_clock::now();
     for (size_t j = 0; j < expcol; j++) {
+      auto time1 = std::chrono::high_resolution_clock::now();
       for (size_t i = 0; i < buf[k]; i += sets) {
         sum += arr[i];
       }
+      auto time2 = std::chrono::high_resolution_clock::now();
+      rez = static_cast<double>(
+          (std::chrono::nanoseconds(time2 - time1).count()));
     }
     delete[] arr;
-    auto time2 = std::chrono::high_resolution_clock::now();
-    out.push_back(static_cast<double>(
-        (std::chrono::nanoseconds(time2 - time1).count()) / expcol));
+    //auto time2 = std::chrono::high_resolution_clock::now();
+    out.push_back((rez/expcol));
   }
   return out;
 }
