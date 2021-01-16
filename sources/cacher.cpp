@@ -61,16 +61,20 @@ std::vector<double> back(const std::vector<uint>& buf) {
     sum += arr[i];
   }
   sum = 0;
-  auto time1 = std::chrono::high_resolution_clock::now();
+  double rez = 0;
+  //auto time1 = std::chrono::high_resolution_clock::now();
   for(size_t j = 0; j < expcol; j++) {
+    auto time1 = std::chrono::high_resolution_clock::now();
     for (int i = buf[k]-1; i > -1; i -= sets) {
       sum += arr[i];
     }
+    auto time2 = std::chrono::high_resolution_clock::now();
+    rez +=static_cast<double>(
+        (std::chrono::nanoseconds(time2 - time1).count()));
   }
     delete[] arr;
-  auto time2 = std::chrono::high_resolution_clock::now();
-    out.push_back(static_cast<double>(
-                      (std::chrono::nanoseconds(time2 - time1).count()) / expcol));
+  //auto time2 = std::chrono::high_resolution_clock::now();
+    out.push_back((rez/expcol));
   }
 
   return out;
@@ -88,18 +92,21 @@ std::vector<double> rand(const std::vector<uint>& buf) {
     }
   }
   sum = 0;
+  double rez = 0;
   srand(unsigned(time(0)));
   random_shuffle(x.begin(), x.end());
-  auto time1 = std::chrono::high_resolution_clock::now();
-  for(size_t i = 0; i < expcol; i++) {
-    for(size_t j = 0; j<buf[k]; j+=sets) {
+    for(size_t i = 0; i < expcol; i++) {
+    auto time1 = std::chrono::high_resolution_clock::now();
+    for (size_t j = 0; j < buf[k]; j += sets) {
       sum += arr[x[i]];
     }
+    auto time2 = std::chrono::high_resolution_clock::now();
+    rez +=
+        static_cast<double>((std::chrono::nanoseconds(time2 - time1).count()));
   }
     delete[] arr;
-  auto time2 = std::chrono::high_resolution_clock::now();
-    out.push_back(static_cast<double>(
-                      (std::chrono::nanoseconds(time2 - time1).count()) / expcol));
+  //auto time2 = std::chrono::high_resolution_clock::now();
+    out.push_back(rez / expcol);
   }
 
   return out;
