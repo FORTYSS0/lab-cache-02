@@ -116,8 +116,11 @@ void Out(const std::vector<uint>& buf) {
     experiments:
     number: 1
     input_data:
-    buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 12Mb
-    results:
+    buffer_size:)";
+ for(size_t i =0; i<buf.size(); i++){
+   std::cout<< " " << (buf[i]/(pow(2, 18)))<<"Mb,";
+ }
+    cout<< std::endl << R"(results:
     duration:)";
  std::vector<double> vect = pryam(buf);
  for(size_t i =0; i<vect.size(); i++){
@@ -128,8 +131,11 @@ cout << std::endl << R"(investigation:
     experiments:
     number: 1
     input_data:
-    buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 12Mb
-    results:
+    buffer_size:)";
+  for(size_t i =0; i<buf.size(); i++){
+    std::cout<< " " << (buf[i]/(pow(2, 18)))<<"Mb,";
+  }
+  cout<< std::endl << R"(results:
     duration:)";
   vect = back(buf);
   for(size_t i =0; i<vect.size(); i++){
@@ -140,8 +146,11 @@ cout << std::endl << R"(investigation:
     experiments:
     number: 1
     input_data:
-    buffer_size: 0.125Mb, 1Mb, 2Mb, 4Mb, 8Mb, 12Mb
-    results:
+    buffer_size:)";
+  for(size_t i =0; i<buf.size(); i++){
+    std::cout<< " " << (buf[i]/(pow(2, 18)))<<"Mb,";
+  }
+  cout<< std::endl << R"(results:
     duration:)";
   vect = rand(buf);
   for(size_t i =0; i<vect.size(); i++){
